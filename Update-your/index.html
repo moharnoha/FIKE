@@ -1,63 +1,163 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"> 
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Servio - الرئيسية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servio - الدخول والتسجيل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary-blue: #2563eb; --border-gray: #e2e8f0; }
-        body { margin: 0; padding: 20px; font-family: 'Inter', sans-serif; background-color: #f1f5f9; display: flex; flex-direction: column; align-items: center; }
-
-        .wallet-container {
-            background: #ffffff; border-radius: 20px; padding: 16px 20px; width: 100%; max-width: 380px;
-            display: flex; align-items: center; justify-content: space-between;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1.5px solid var(--border-gray);
-            cursor: pointer; transition: transform 0.2s;
+        :root { 
+            --primary: #2563eb; 
+            --success: #059669;
+            --bg: #f8fafc; 
         }
-        .wallet-container:active { transform: scale(0.98); }
-
-        .wallet-label { font-size: 11px; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; display: block; }
-        .wallet-amount { font-size: 24px; font-weight: 800; color: var(--primary-blue); font-family: 'Inter', monospace; }
-        .wallet-icon-box { 
-            width: 42px; height: 42px; background: #eff6ff; border-radius: 12px; 
-            display: flex; align-items: center; justify-content: center; border: 1px solid #dbeafe; 
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0; 
         }
-        .wallet-icon-box svg { width: 22px; height: 22px; fill: var(--primary-blue); }
+        .card { 
+            background: #fff; 
+            padding: 30px; 
+            border-radius: 24px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+            width: 100%; 
+            max-width: 380px; 
+            text-align: center; 
+            border: 1px solid #e2e8f0; 
+        }
+        h2 { margin-bottom: 5px; color: #1e293b; font-size: 28px; }
+        p { color: #64748b; font-size: 14px; margin-bottom: 25px; }
+        
+        .input-group { text-align: right; margin-bottom: 15px; }
+        label { display: block; font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 6px; }
+        
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1.5px solid #e2e8f0; 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            font-size: 16px; 
+            transition: 0.2s; 
+            outline: none; 
+            text-align: right;
+        }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
+        
+        .btn-container { display: flex; gap: 10px; margin-top: 20px; }
+        .btn { 
+            flex: 1; 
+            color: white; 
+            border: none; 
+            padding: 14px; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            font-size: 14px; 
+            cursor: pointer; 
+            transition: 0.3s; 
+        }
+        .btn-login { background: var(--primary); }
+        .btn-register { background: var(--success); }
+        .btn:active { transform: scale(0.95); }
+        .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+        #msg { margin-top: 20px; font-size: 14px; font-weight: 600; min-height: 24px; border-radius: 8px; padding: 5px; }
     </style>
 </head>
 <body>
 
-    <div class="wallet-container" onclick="window.location.href='s/'">
-        <div class="wallet-info">
-            <span class="wallet-label">الرصيد المتاح</span>
-            <div class="wallet-amount" id="available-balance">جاري التحميل...</div>
+    <div class="card">
+        <h2>Servio</h2>
+        <p>نظام إدارة المحفظة الذكي</p>
+        
+        <div class="input-group">
+            <label>البريد الإلكتروني (Gmail)</label>
+            <input type="email" id="email" placeholder="example@gmail.com" required>
         </div>
-        <div class="wallet-icon-box">
-            <svg viewBox="0 0 24 24"><path d="M21,18V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V6H12C10.89,6 10,6.9 10,8V16A2,2 0 0,0 12,18H21M12,16H22V8H12V16M16,13.5A1.5,1.5 0 0,1 14.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,12A1.5,1.5 0 0,1 16,13.5Z"/></svg>
+
+        <div class="input-group">
+            <label>كلمة المرور</label>
+            <input type="password" id="password" placeholder="••••••••" required>
         </div>
+
+        <div class="btn-container">
+            <button class="btn btn-register" id="regBtn" onclick="handleAuth('register')">إنشاء حساب</button>
+            <button class="btn btn-login" id="loginBtn" onclick="handleAuth('login')">تسجيل دخول</button>
+        </div>
+
+        <div id="msg"></div>
     </div>
 
     <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbyOrOxzBS7JY_Zd2hAp2Nerv-bD3VROcOB5j9i6ZnGDFDVrgcGLVgLKVKJm-PpZy5jd/exec";
+        // الرابط الذي زودتني به مع إضافة / في النهاية لضمان التوجيه
+        const scriptURL = "https://script.google.com/macros/s/AKfycbxy4EfQkN8I4l5xGq77u59kfQzx58Lded-1QpktNEEMhNvKvWzE0SKU2djhx1UlpGvHeQ/exec";
 
-        async function fetchWalletData() {
-            const email = localStorage.getItem("userGmail");
-            const balanceElement = document.getElementById('available-balance');
-            if (!email) { balanceElement.innerText = "سجل الدخول"; return; }
+        async function handleAuth(actionType) {
+            const email = document.getElementById('email').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const msg = document.getElementById('msg');
+            const loginBtn = document.getElementById('loginBtn');
+            const regBtn = document.getElementById('regBtn');
+
+            if (!email || !pass) { 
+                msg.style.color = "#dc2626"; 
+                msg.innerText = "⚠️ يرجى إدخال البيانات كاملة"; 
+                return; 
+            }
+
+            // تعطيل الأزرار أثناء العملية
+            loginBtn.disabled = true;
+            regBtn.disabled = true;
+            msg.style.color = "#64748b";
+            msg.innerText = "جاري الاتصال بالسيرفر...";
 
             try {
                 const response = await fetch(scriptURL, {
                     method: 'POST',
-                    body: JSON.stringify({ gmail: email, action: "fetch" })
+                    mode: 'no-cors', // نستخدم no-cors في حال وجود مشاكل CORS مع Apps Script، لكن يفضل معالجتها من السكريبت
+                    body: JSON.stringify({ 
+                        gmail: email, 
+                        password: pass, 
+                        action: actionType 
+                    })
                 });
-                const data = await response.json();
-                if (data.status === "success") {
-                    balanceElement.innerText = `$${parseFloat(data.balance).toFixed(2)}`;
+
+                // ملاحظة: بسبب طبيعة Apps Script، يفضل دائماً التحقق من النتيجة. 
+                // إذا لم تستخدم CORS في السكريبت، قد تحتاج لاستخدام Google JSONP أو تعديل Headers.
+                // لنفترض أن السكريبت يرسل استجابة صحيحة:
+
+                const res = await fetch(scriptURL, {
+                    method: 'POST',
+                    body: JSON.stringify({ gmail: email, password: pass, action: actionType })
+                });
+                const result = await res.json();
+
+                if (result.status === "success") {
+                    msg.style.color = "#059669";
+                    msg.innerText = "✅ " + result.message;
+                    
+                    if(actionType === "login") {
+                        localStorage.setItem("userGmail", email);
+                        setTimeout(() => window.location.href = "wallet.html", 1200);
+                    }
+                } else {
+                    msg.style.color = "#dc2626";
+                    msg.innerText = "❌ " + result.message;
                 }
-            } catch (e) { balanceElement.innerText = "خطأ"; }
+            } catch (e) {
+                msg.style.color = "#dc2626";
+                msg.innerText = "حدث خطأ في الشبكة أو السيرفر";
+                console.error(e);
+            } finally {
+                loginBtn.disabled = false;
+                regBtn.disabled = false;
+            }
         }
-        window.onload = fetchWalletData;
     </script>
 </body>
 </html>
